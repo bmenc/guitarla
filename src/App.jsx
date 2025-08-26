@@ -1,8 +1,10 @@
+import {useState} from 'react';
+import Guitar from './components/Guitar';
 import Header from './components/Header';
-import Guitar from './components/Guitar'
 
 function App() {
 
+  const [auth, setAuth] = useState(false);
   return (
     <>
     <Header/>
