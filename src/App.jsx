@@ -1,10 +1,21 @@
-import {useState} from 'react';
+import { useEffect, useState } from 'react';
 import Guitar from './components/Guitar';
 import Header from './components/Header';
 
 function App() {
 
   const [auth, setAuth] = useState(false);
+
+  useEffect(() => { 
+    if (auth) {
+      console.log('Componente Listo o escuchando por Auth');
+    }
+  }, [auth])
+
+  setTimeout(() => {
+    setAuth(true)
+  }, 3000);
+
   return (
     <>
     <Header/>
@@ -17,11 +28,10 @@ function App() {
           <Guitar />
           <Guitar />
           <Guitar />
-          <Guitar />
+          <Guitar />  
           <Guitar />
         </div>
       </main>
-
 
       <footer className="bg-dark mt-5 py-5">
         <div className="container-xl">
