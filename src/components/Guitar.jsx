@@ -21,4 +21,4 @@ export default function Guitar({guitar, setCart, addToCart}) {
             </div> 
         </div>
     )
-}
+};
