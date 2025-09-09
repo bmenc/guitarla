@@ -6,16 +6,19 @@ import { db } from './data/db';
 function App() {
   const [data, setData] = useState(db);
   const [cart, setCart] = useState([]);
+  const MAX_ITEMS = 5;
 
   function addToCart(item) {
     const itemExists = cart.findIndex(guitar => guitar.id === item.id);
-    if (itemExists >= 0) { //Existe en el carrito
-      const updatedCart = [...cart];
-      updatedCart[itemExists].quantity += 1;
-      setCart(updatedCart);
+    if (itemExists >= 0) {
+      if (cart[itemExists].quantity < MAX_ITEMS) {
+        const updatedCart = [...cart];
+        updatedCart[itemExists].quantity += 1;
+        setCart(updatedCart);
+      }
     } else {
-      item.quantity = 1
-      setCart([...cart, item]);
+      const newItem = { ...item, quantity: 1 };
+      setCart([...cart, newItem]);
     }
   }
 
@@ -25,12 +28,45 @@ function App() {
       setCart(prevCart => prevCart.filter(guitar => guitar.id !== item.id));
     }
   }
-  
+
+  function increaseQuantity(item) {
+    const itemExists = cart.findIndex(guitar => guitar.id === item.id);
+    if (itemExists >= 0 && cart[itemExists].quantity < MAX_ITEMS) {
+      setCart(prevCart => prevCart.map(guitar =>
+        guitar.id === item.id
+          ? { ...guitar, quantity: guitar.quantity + 1 }
+          : guitar
+      ));
+    }
+  }
+
+  function decreaseQuantity(item) {
+    const itemExists = cart.findIndex(guitar => guitar.id === item.id);
+    if (itemExists >= 0) {
+      if (cart[itemExists].quantity > 1) {
+        setCart(prevCart => prevCart.map(guitar =>
+          guitar.id === item.id
+            ? { ...guitar, quantity: guitar.quantity - 1 }
+            : guitar
+        ));
+      } else {
+        setCart(prevCart => prevCart.filter(guitar => guitar.id !== item.id));
+      }
+    }
+  }
+
+  function clearCart() {
+    setCart([]);
+  }
+
   return (
     <>
       <Header 
         cart={cart}
         removeFromCart={removeFromCart}
+        increaseQuantity={increaseQuantity}
+        decreaseQuantity={decreaseQuantity}
+        clearCart={clearCart}
       />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
