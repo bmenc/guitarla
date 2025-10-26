@@ -1,8 +1,14 @@
-import { useState } from "react";
+import type {Guitar as GuitarType} from '../types';
 
-export default function Guitar({guitar, setCart, addToCart}) {
+interface GuitarProps {
+    guitar: GuitarType;
+    setCart?: unknown;
+    addToCart: (item: GuitarType) => void;
+}
 
-    const {id, name, image, description, price} = guitar;
+export default function Guitar({guitar, addToCart}: GuitarProps) {
+
+    const { name, image, description, price} = guitar;
     
     return (
         <div className="col-md-6 col-lg-4 my-4 row align-items-center">
