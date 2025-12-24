@@ -26,30 +26,25 @@ export const cartReducer = (
   switch (action.type) {
     case "add-to-cart": {
       const itemExists = state.cart.findIndex(guitar => guitar.id === action.payload.item.id);
-      if (itemExists >= 0) {
-        // const updatedCart = [...state.cart];
-        // if (state.cart[itemExists].quantity < MAX_ITEMS) {
-        //   updatedCart[itemExists].quantity +=1;
-        // }
+      let updatedCart : CartItem[] = [];
 
-        const updatedCart = state.cart.map((guitar, index) => index === itemExists
-          ? {...guitar, quantity: guitar.quantity + 1 }
-          : guitar
-        );
-        return {
-          ...state,
-          cart: updatedCart
+      if (itemExists >= 0) {
+        if (state.cart[itemExists].quantity < MAX_ITEMS) {
+          updatedCart = state.cart.map((guitar, index) => index === itemExists
+            ? { ...guitar, quantity: guitar.quantity + 1 }
+            : guitar
+          );
+        } else {
+          updatedCart = state.cart;
         }
       } else {
-        const newItem: CartItem = {...action.payload.item, quantity: 1};
-        return {
-          ...state,
-          cart: [...state.cart, newItem]
-        }
+        const newItem: CartItem = { ...action.payload.item, quantity: 1 };
+        updatedCart = [...state.cart, newItem];
       }
-      
+
       return {
-        ...state
+        ...state,
+        cart: updatedCart
       }
     }
     case "remove-from-cart": {
