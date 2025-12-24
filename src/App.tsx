@@ -38,7 +38,7 @@ console.log(state);
             <Guitar
               key={guitar.id}
               guitar={guitar}
-              addToCart={addToCart}
+              dispatch={dispatch}
             />
           ))}
         </div>
