@@ -23,16 +23,29 @@ export const cartReducer = (
 ) => {
   switch (action.type) {
     case "add-to-cart": {
-      return {}
+      return {
+        ...state
+      }
     }
     case "remove-from-cart": {
-      return {}
+      return {
+        ...state
+      }
     }
     case "decrease-quantity": {
-      return {}
+      return {
+        ...state
+      }
+    }
+    case "increase-quantity": {
+      return {
+        ...state
+      }
     }
     case "clear-cart": {
-      return {}
+      return {
+        ...state
+      }
     }
   
     default: return state;
