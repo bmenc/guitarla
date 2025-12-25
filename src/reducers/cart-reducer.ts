@@ -12,9 +12,15 @@ export type CartState = {
   data: Guitar[]
   cart: CartItem[]
 }
+
+const initialCart = (): CartItem[] => {
+    const localStorageCart = localStorage.getItem('cart');
+    return localStorageCart ? JSON.parse(localStorageCart) : [];
+}
+
 export const initialState: CartState = {
   data: db,
-  cart: []
+  cart: initialCart()
 }
 
 export const cartReducer = (
@@ -42,6 +48,8 @@ export const cartReducer = (
         const newItem: CartItem = { ...action.payload.item, quantity: 1 };
         updatedCart = [...state.cart, newItem];
       }
+
+      saveLocalStorage();
 
       return {
         ...state,
@@ -87,10 +95,16 @@ export const cartReducer = (
     }
     case "clear-cart": {
       return {
-        ...state
+        ...state,
+        cart: []
       }
     }
   
     default: return state;
   }
+
+  function saveLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+  }
 }
+
