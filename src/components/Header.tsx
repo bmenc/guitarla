@@ -5,12 +5,10 @@ import type { CartActions } from '../reducers/cart-reducer';
 interface HeaderProps {
   cart: CartItem[];
   dispatch: Dispatch<CartActions>
-  increaseQuantity: (item: Guitar) => void;
-  decreaseQuantity: (item: Guitar) => void;
   clearCart: () => void;
 }
 
-export default function Header({ cart, dispatch, increaseQuantity, decreaseQuantity, clearCart }: HeaderProps) {
+export default function Header({ cart, dispatch, clearCart }: HeaderProps) {
     const isEmpty = useMemo(() => cart.length === 0, [cart]);
     const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.quantity * item.price), 0), [cart]);
   
@@ -58,7 +56,7 @@ export default function Header({ cart, dispatch, increaseQuantity, decreaseQuant
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => decreaseQuantity(guitar)}
+                                onClick={() => dispatch({ type: 'decrease-quantity', payload: { id: guitar.id } })}
                               >
                                 -
                               </button>
@@ -66,7 +64,7 @@ export default function Header({ cart, dispatch, increaseQuantity, decreaseQuant
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => increaseQuantity(guitar)}
+                                onClick={() => dispatch({ type: 'increase-quantity', payload: { id: guitar.id } })}
                               >
                                 +
                               </button>
