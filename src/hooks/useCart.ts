@@ -16,12 +16,7 @@ export const useCart = () => {
 
 
 
-    function removeFromCart(item: Guitar) {
-        const itemExists = cart.findIndex(guitar => guitar.id === item.id);
-        if (itemExists >= 0) {
-            setCart(prevCart => prevCart.filter(guitar => guitar.id !== item.id));
-        }
-    }
+
 
     function increaseQuantity(item: Guitar) {
         const itemExists = cart.findIndex(guitar => guitar.id === item.id);
@@ -59,7 +54,6 @@ export const useCart = () => {
 
     return {
         cart,
-        removeFromCart,
         decreaseQuantity,
         increaseQuantity,
         clearCart,
