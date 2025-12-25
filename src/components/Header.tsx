@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { CartItem, Guitar } from '../types';
 
 interface HeaderProps {
@@ -6,11 +7,11 @@ interface HeaderProps {
   increaseQuantity: (item: Guitar) => void;
   decreaseQuantity: (item: Guitar) => void;
   clearCart: () => void;
-  isEmpty: boolean;
-  cartTotal: number;
 }
 
-export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal }: HeaderProps) {
+export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }: HeaderProps) {
+    const isEmpty = useMemo(() => cart.length === 0, [cart]);
+    const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.quantity * item.price), 0), [cart]);
   
   return (
     <header className="py-5 header">
